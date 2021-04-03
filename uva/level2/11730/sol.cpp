@@ -17,28 +17,48 @@ const array<int, 168> prime_vec{
     907, 911, 919, 929, 937, 941, 947, 953, 967, 971, 977, 983, 991, 997,
 };
 
+const list<int> gen_prime_factor(const int &val)
+{
+    list<int> fac_lst;
+    for (const auto &i : prime_vec) {
+        if (i > val)
+            break;
+        if (val % i == 0)
+            fac_lst.push_back(i);
+    }
+    return fac_lst;
+}
 
 int main()
 {
     int s, t;
     int cases = 0;
     while (cin >> s >> t && s && t) {
-        auto len = t - s;
-        if (len == 0) {
-            cout << "Case " << ++cases << ": " << 0 << endl;
-            continue;
+        cout << "Case " << ++cases << ": ";
+        queue<pair<int, int>> ready;
+        map<int, bool> seen;
+        unsigned long counter = 0;
+        ready.push(make_pair(s, 0));
+        auto front = ready.front();
+        while (!ready.empty()) {
+            front = ready.front();
+            ready.pop();
+            if (front.first >= t) {
+                continue;
+            }
+            auto &&l = gen_prime_factor(front.first);
+
+            for (auto iter = l.begin(); iter != l.end(); iter++) {
+                const auto next_val = *iter + front.first;
+                if (seen.find(next_val) == seen.end()) {
+                    ready.push(make_pair(next_val, front.second + 1));
+                    seen[next_val] = true;
+                    cerr << next_val << " ";
+                }
+            }
         }
-        else if (len < 0)
-        
 
-        // The possible list: sum, counter ...
-        list<pair<int, int>> lp;
-        // Init possible list
-        for (const auto &prime : prime_vec)
-            if (prime < len && !(s % prime))
-                lp.push_back(make_pair(s + prime, 1));
-
-        
+        cout << ((front.first == t) ? front.second : -1) << endl;
     }
 
     return 0;
