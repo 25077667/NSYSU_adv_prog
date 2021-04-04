@@ -60,7 +60,7 @@ int main()
             }
         } while (!bfs.empty());
 
-        cout << ((bfs.front().first == t) ? bfs.front().second : -1) << endl;
+        cout << ((!bfs.empty() && bfs.front().first == t) ? bfs.front().second : -1) << endl;
     }
 
     return 0;
