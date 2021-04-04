@@ -35,30 +35,32 @@ int main()
     int cases = 0;
     while (cin >> s >> t && s && t) {
         cout << "Case " << ++cases << ": ";
-        queue<pair<int, int>> ready;
-        map<int, bool> seen;
+        queue<pair<int, int>> bfs;
+        unordered_set<int> seen;
         unsigned long counter = 0;
-        ready.push(make_pair(s, 0));
-        auto front = ready.front();
-        while (!ready.empty()) {
-            front = ready.front();
-            ready.pop();
-            if (front.first >= t) {
+        bfs.push(make_pair(s, 0));
+
+        do {
+            auto front = bfs.front();
+            if (front.first == t)
+                break;
+            bfs.pop();
+            if (front.first > t)
                 continue;
-            }
+
             auto &&l = gen_prime_factor(front.first);
 
             for (auto iter = l.begin(); iter != l.end(); iter++) {
                 const auto next_val = *iter + front.first;
                 if (seen.find(next_val) == seen.end()) {
-                    ready.push(make_pair(next_val, front.second + 1));
-                    seen[next_val] = true;
-                    cerr << next_val << " ";
+                    bfs.push(make_pair(next_val, front.second + 1));
+                    seen.insert(next_val);
+                    // cerr << next_val << " ";
                 }
             }
-        }
+        } while (!bfs.empty());
 
-        cout << ((front.first == t) ? front.second : -1) << endl;
+        cout << ((bfs.front().first == t) ? bfs.front().second : -1) << endl;
     }
 
     return 0;
