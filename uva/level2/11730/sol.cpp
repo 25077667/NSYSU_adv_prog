@@ -21,7 +21,7 @@ const list<int> gen_prime_factor(const int &val)
 {
     list<int> fac_lst;
     for (const auto &i : prime_vec) {
-        if (i > val)
+        if (i >= val)
             break;
         if (val % i == 0)
             fac_lst.push_back(i);
@@ -60,7 +60,9 @@ int main()
             }
         } while (!bfs.empty());
 
-        cout << ((!bfs.empty() && bfs.front().first == t) ? bfs.front().second : -1) << endl;
+        cout << ((!bfs.empty() && bfs.front().first == t) ? bfs.front().second
+                                                          : -1)
+             << endl;
     }
 
     return 0;
