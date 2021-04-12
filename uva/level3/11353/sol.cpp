@@ -41,6 +41,6 @@ int main()
 
     int n, cases = 0;
     while (cin >> n && n)
-        cout << "Cases " << ++cases << ": " << dp[n + 1].key << "\n";
+        cout << "Case " << ++cases << ": " << dp[n + 1].key << "\n";
     return 0;
 }
