@@ -1,5 +1,6 @@
 #pragma GCC optimize("Ofast")
 #include <bits/stdc++.h>
+#include <unistd.h>
 using namespace std;
 
 constexpr int MAX_N = 1000001;
@@ -25,9 +26,9 @@ inline void gen_factors(int n)
 {
     factors.clear();
     for (int i = 0; n != 1 && i < pt.size(); i++) {
-        if (n % pt[i] == 0) {
+        if (__glibc_unlikely(n % pt[i] == 0)) {
             factors.push_back(pt[i]);
-            while (n % pt[i])
+            while (!(n % pt[i]))
                 n /= pt[i];
         }
     }
@@ -49,7 +50,7 @@ inline int find_nsf(int n)
         if (t > n)
             return t;
         for (const auto &i : factors) {
-            const auto m = i * t;
+            const auto m = (unsigned long long) i * t;
             if (peeked.find(m) != peeked.end() || m > 2000000 ||
                 m < 0)  // searched or to big
                 continue;
@@ -63,6 +64,8 @@ inline int find_nsf(int n)
 int main()
 {
     init_pt();
+    std::ios::sync_with_stdio(false);
+    std::cin.tie(0);
     int n;
     while (cin >> n) {
         gen_factors(n);
