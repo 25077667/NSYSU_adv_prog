@@ -50,8 +50,8 @@ inline int find_nsf(int n)
             return t;
         for (const auto &i : factors) {
             const auto m = i * t;
-            if (peeked.find(m) != peeked.end() ||
-                m > 2000000)  // searched or to big
+            if (peeked.find(m) != peeked.end() || m > 2000000 ||
+                m < 0)  // searched or to big
                 continue;
             pq.push(m);
             peeked.insert(m);
